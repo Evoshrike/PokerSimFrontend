@@ -57,7 +57,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation, route }) =>  {
               buttonStyle={styles.buttonStyle}
               containerStyle={styles.buttonContainer}
               titleStyle={{ fontWeight: 'bold' }}
-              onPress={() => console.log("join game")}
+              onPress={() => navigation.navigate("JoinGame")}
             />
       </View>
     </ImageBackground>

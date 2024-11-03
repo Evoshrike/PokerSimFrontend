@@ -1,6 +1,8 @@
 type RootStackParamList = {
     Home: undefined;
     NewGame: undefined
+    JoinGame: undefined
+    Lobby: { code: number; }
   };
 
   type Player = {

@@ -5,7 +5,6 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  
   Alert,
   StyleSheet,
   StatusBar,
@@ -14,7 +13,7 @@ import {
   useWindowDimensions,
   DimensionValue,
 } from "react-native";
-import { Button } from '@rneui/base';
+import { Button } from "@rneui/base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDeviceOrientation } from "@react-native-community/hooks";
 import { rgbaColor } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
@@ -27,8 +26,6 @@ import { useEffect, useState } from "react";
 import { types } from "@babel/core";
 import { Player } from "../config/types.js";
 
-
-
 const NewGameScreen = () => {
   const [code, setCode] = useState(undefined);
   const [players, setPlayers] = useState(null);
@@ -36,21 +33,31 @@ const NewGameScreen = () => {
   const fetchCode = async () => {
     const code = await funcs.onNewGamePress();
     setCode(code);
-  }
+  };
   const fetchStatus = async () => {
-    const game = await funcs.onGameStatusRefresh(code);
-    const players = game.players.map((p: Player) => p.name)
-    setPlayers(players);
-  }
+    if (code) {
+      const game = await funcs.onGameStatusRefresh(code);
+      const players = game.players.map((p: Player) => p.name);
+      setPlayers(players);
+    }
+  };
   useEffect(() => {
     fetchCode(); // Fetch code when the component mounts
   }, []);
-  if (code != undefined){
-    fetchStatus();
-  }
 
+  useEffect(() => {
+    let intervalId: string | number | NodeJS.Timeout | undefined;
+    if (code) {
+      // Set up polling every 10 ms
+      intervalId = setInterval(() => {
+        fetchStatus(); 
+      }, 10); 
+    }
 
-  
+    // Cleanup: clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [code]);
+
   return (
     <ImageBackground
       source={require("../assets/images/casino.png")}
@@ -58,28 +65,32 @@ const NewGameScreen = () => {
     >
       <View style={styles.settingsWindow}>
         <View>
-          <Text style={styles.playersTitle}>Your code is</Text>
-          <Text style={styles.codeText}>{code}</Text>
-          <Text style={styles.playersTitle}>Players:</Text>
-          <FlatList
-            data={players}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <Text style={styles.playerItem}>{item}</Text>
-            )}
-          />
-          <Button
-              title="NEW GAME"
+          <View style={styles.container}>
+            <Text style={styles.playersTitle}>Your code is</Text>
+            <Text style={styles.codeText}>{code}</Text>
+            <Text style={styles.playersTitle}>Players:</Text>
+            <FlatList
+              data={players}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <Text style={styles.playerItem}>{item}</Text>
+              )}
+            />
+          </View>
+          <View style={styles.registerButton}>
+            <Button
+              title="START GAME"
               buttonStyle={styles.buttonStyle}
               containerStyle={styles.buttonContainer}
-              titleStyle={{ fontWeight: 'bold' }}
-              onPress={() => console.log("join game")}
+              titleStyle={{ fontWeight: "bold" }}
+              onPress={() => console.log("start game")}
             />
+          </View>
         </View>
       </View>
     </ImageBackground>
   );
-}
+};
 
 const styles = StyleSheet.create({
   background: {
@@ -90,16 +101,21 @@ const styles = StyleSheet.create({
     top: 0,
   },
   buttonStyle: {
-    backgroundColor: '#004D40',
+    backgroundColor: "#004D40",
     borderWidth: 2,
-    borderColor: 'white',
+    borderColor: "white",
     borderRadius: 30,
   },
   buttonContainer: {
     width: 200,
     marginHorizontal: 50,
     marginVertical: 10,
-    alignSelf: 'center'
+    alignSelf: "center",
+  },
+  registerButton: {
+    width: "40%",
+    height: 200,
+    backgroundColor: colors.transparent,
   },
   settingsWindow: {
     backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -114,7 +130,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: colors.transparent,
   },
   codeText: {
     fontSize: 40, // Large font size for the code
@@ -122,9 +138,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     color: "#fff",
     textAlign: "center",
-    alignContent: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center'
+    alignContent: "center",
+    justifyContent: "center",
+    alignSelf: "center",
   },
   playersTitle: {
     fontSize: 24,

@@ -1,16 +1,44 @@
+const hostURL = `https://swift-shoes-spend.loca.lt`
+
 
 
 async function newGame() {
-    const response = await fetch('https://curvy-kiwis-flow.loca.lt/api/v1/pregame/newgame/Jude', getNewGameCall())
+  try{ 
+    const response = await fetch(`${hostURL}/api/v1/pregame/newgame/Jude`, getNewGameCall())
     return response.json()
+  } catch (error) {
+    console.log("error fetching data")
+  }
   }
 
+  async function joinGame(username, code){
+    try{ 
+      const response = await fetch(`${hostURL}/api/v1/joingame/${code}`, getJoinGameCall())
+      return response.json()
+    } catch (error) {
+      console.log("error joining game")
+    }
+
+
+  }
+  
+
   async function gameStatus(code) {
-    const response = await fetch(`https://curvy-kiwis-flow.loca.lt/api/v1/pregame/${code}`, getGameStatus())
-    return response.json()
+    try {
+      const response = await fetch(`${hostURL}/api/v1/pregame/${code}`, getGameStatus())
+      return response.json()
+
+    } catch (error) {
+      console.log("error fetching status")
+    }
+    
   }
   
   // don't touch below this line
+
+async function joinGamePress(username, code){
+  const game = await joinGame(username, code)
+}
   
 async function onNewGamePress(){
   const game = await newGame();
@@ -21,6 +49,9 @@ async function onNewGamePress(){
 }
 async function onGameStatusRefresh(code){
   const game = await gameStatus(code);
+  if (game == undefined) {
+    
+  }
   // console.log(game);
   return game;
 }
@@ -34,6 +65,17 @@ async function onGameStatusRefresh(code){
 
     }
   }
+
+  function getJoinGameCall(){
+    return {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: username
+
+    }
+  }
   
   function getNewGameCall() {
     return {
@@ -44,4 +86,4 @@ async function onGameStatusRefresh(code){
     }
   }
 
-export default {onNewGamePress, onGameStatusRefresh}
+export default {onNewGamePress, onGameStatusRefresh, joinGamePress}
