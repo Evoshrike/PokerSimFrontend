@@ -2,6 +2,7 @@ type RootStackParamList = {
     Home: undefined;
     NewGame: undefined
     JoinGame: undefined
+    InGame: undefined
     Lobby: { code: number; }
   };
 
@@ -26,3 +27,5 @@ type RootStackParamList = {
   }
 
   export {Player, Choice, Card, RootStackParamList}
+
+  export default {}

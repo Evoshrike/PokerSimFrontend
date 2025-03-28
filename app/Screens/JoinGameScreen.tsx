@@ -1,31 +1,15 @@
 import {
   Text,
   View,
-  Image,
   ImageBackground,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  Alert,
   StyleSheet,
-  StatusBar,
-  Platform,
-  Dimensions,
-  useWindowDimensions,
-  DimensionValue,
   TextInput,
 } from "react-native";
 import { Button } from "@rneui/base";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDeviceOrientation } from "@react-native-community/hooks";
-import { rgbaColor } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
-import { registerSensor } from "react-native-reanimated/lib/typescript/reanimated2/core";
 
 import colors from "../config/colors.js";
-import { FlatList } from "react-native";
-import funcs from "../API things/funcs.js";
-import { useEffect, useRef, useState } from "react";
-import { types } from "@babel/core";
-import { Player, RootStackParamList } from "../config/types.js";
+import { useRef, useState } from "react";
+import { RootStackParamList } from "../config/types.js";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type Props = NativeStackScreenProps<RootStackParamList, "JoinGame">;

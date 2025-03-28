@@ -15,5 +15,5 @@
     "IgnoreMe.ts",
     "app/Screens/ScreenTwo.tsx",
     "app/Screens/WelcomeScreen.tsx"
-, "app/API things/funcs.js"  ]
+, "app/API things/funcs.ts"  ]
 }

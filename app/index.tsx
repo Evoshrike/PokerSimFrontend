@@ -5,12 +5,17 @@ import WelcomeScreen from "./Screens/WelcomeScreen";
 import { RootStackParamList } from "./config/types";
 import JoinGameScreen from "./Screens/JoinGameScreen";
 import InLobbyScreen from "./Screens/InLobbyScreen";
+import { enableScreens } from 'react-native-screens';
+import InGameScreen from "./Screens/InGameScreen";
 console.log("app loading..");
+enableScreens();
+
 const App = () => {
   console.log("We got to APP");
   const Stack = createNativeStackNavigator<RootStackParamList>();
 
   return (
+    <NavigationContainer>
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
@@ -32,7 +37,9 @@ const App = () => {
       <Stack.Screen name="NewGame" component={NewGameScreen} />
       <Stack.Screen name="JoinGame" component={JoinGameScreen} />
       <Stack.Screen name="Lobby" component={InLobbyScreen} />
+      <Stack.Screen name="InGame" component={InGameScreen} />
     </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

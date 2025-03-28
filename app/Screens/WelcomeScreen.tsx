@@ -1,29 +1,13 @@
 import {
-  Text,
   View,
   Image,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  
-  Alert,
   StyleSheet,
-  StatusBar,
-  Platform,
-  Dimensions,
-  useWindowDimensions,
-  DimensionValue,
   ImageBackground,
-  Settings,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDeviceOrientation } from "@react-native-community/hooks";
 
 
 import colors from "../config/colors";
 import { Button } from '@rneui/base';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from "../config/types";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 

@@ -1,37 +1,31 @@
 import {
   Text,
   View,
-  Image,
   ImageBackground,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  Alert,
   StyleSheet,
-  StatusBar,
-  Platform,
-  Dimensions,
-  useWindowDimensions,
-  DimensionValue,
 } from "react-native";
 import { Button } from "@rneui/base";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useDeviceOrientation } from "@react-native-community/hooks";
-import { rgbaColor } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
-import { registerSensor } from "react-native-reanimated/lib/typescript/reanimated2/core";
 
 import colors from "../config/colors.js";
 import { FlatList } from "react-native";
-import funcs from "../API things/funcs.js";
+import funcs from "../API things/funcs";
 import { useEffect, useState } from "react";
-import { types } from "@babel/core";
-import { Player } from "../config/types.js";
 
-const NewGameScreen = () => {
-  const [code, setCode] = useState(undefined);
+import { Player, RootStackParamList } from "../config/types";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+  
+type Props = NativeStackScreenProps<RootStackParamList, "NewGame">;
+  
+  
+  const NewGameScreen: React.FC<Props> = ({ navigation, route }) =>  {
+
+    const [code, setCode] = useState(undefined);
+  
   const [players, setPlayers] = useState(null);
 
   const fetchCode = async () => {
     const code = await funcs.onNewGamePress();
+    console.log("we got a code");
     setCode(code);
   };
   const fetchStatus = async () => {
@@ -57,7 +51,6 @@ const NewGameScreen = () => {
     // Cleanup: clear the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, [code]);
-
   return (
     <ImageBackground
       source={require("../assets/images/casino.png")}
@@ -83,7 +76,7 @@ const NewGameScreen = () => {
               buttonStyle={styles.buttonStyle}
               containerStyle={styles.buttonContainer}
               titleStyle={{ fontWeight: "bold" }}
-              onPress={() => console.log("start game")}
+              onPress={() => navigation.navigate("InGame")}
             />
           </View>
         </View>
